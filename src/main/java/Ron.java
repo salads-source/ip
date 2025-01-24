@@ -13,7 +13,7 @@ public class Ron {
     public static String echoCommand(String command) {
         String result =  """
                 ____________________________________________________________
-                %s
+                added: %s
                 ____________________________________________________________
                 """;
         result = String.format(result, command);
@@ -37,13 +37,25 @@ public class Ron {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
         System.out.println(greetUser());
+
+        String[] storedCommands = new String[100];
+        int counter = 0;
         Scanner scanner = new Scanner(System.in);
 
         while (scanner.hasNext()) {
             String nextCommand = scanner.nextLine();
             if (nextCommand.equals("bye")) {
                 break;
+            } else if (nextCommand.equals("list")) {
+                System.out.println("____________________________________________________________");
+                for (int i = 0; i < counter; i++) {
+                    System.out.printf("%s. %s%n", i + 1, storedCommands[i]);
+                }
+                System.out.println("____________________________________________________________");
+                continue;
             }
+            storedCommands[counter] = nextCommand;
+            counter++;
             System.out.println(echoCommand(nextCommand));
         }
 
