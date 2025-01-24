@@ -13,10 +13,16 @@ public class Ron {
                 ____________________________________________________________
                 """;
     }
-    public static String echoCommand(Task task, int taskCount) {
-        return String.format("""
+    public static String echoCommand(Task task, int taskCount, boolean isAdd) {
+        return isAdd ? String.format("""
                 ____________________________________________________________
                 Got it. I've added this task:
+                  %s
+                Now you have %d tasks in the list.
+                ____________________________________________________________
+                """, task, taskCount) : String.format("""
+                ____________________________________________________________
+                Noted. I've removed this task:
                   %s
                 Now you have %d tasks in the list.
                 ____________________________________________________________
@@ -90,16 +96,33 @@ public class Ron {
                     System.out.println(e.getMessage());
                 }
                 printSeparator();
+            } else if (nextCommand.startsWith("delete")) {
+                try {
+                    String[] tokens = nextCommand.split(" ", 2);
+                    if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
+                        throw new RonException("Please specify a task number to delete.");
+                    }
+                    int taskNumber = Integer.parseInt(tokens[1].trim()) - 1;
+                    if (taskNumber < 0 || taskNumber >= storedCommands.size()) {
+                        throw new RonException("Invalid task number. Please choose a valid task to delete.");
+                    }
+                    Task task = storedCommands.get(taskNumber);
+                    storedCommands.remove(taskNumber);
+                    System.out.println(echoCommand(task, storedCommands.size(), false));
+                } catch (RonException e) {
+                    printSeparator();
+                    System.out.println(e.getMessage());
+                    printSeparator();
+                }
             } else if (nextCommand.startsWith("todo")) {
                 try {
                     String[] tokens = nextCommand.split(" ", 2);
                     if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
                         throw new RonException("Todo activity cannot be empty!");
                     }
-                    String taskName = nextCommand.substring(5);
-                    Task task = new Todo(taskName);
+                    Task task = new Todo(tokens[1]);
                     storedCommands.add(task);
-                    System.out.println(echoCommand(task, storedCommands.size()));
+                    System.out.println(echoCommand(task, storedCommands.size(), true));
                 } catch (RonException e) {
                     printSeparator();
                     System.out.println(e.getMessage());
@@ -115,7 +138,7 @@ public class Ron {
                     String by = tokens[1];
                     Task task = new Deadline(taskName, by);
                     storedCommands.add(task);
-                    System.out.println(echoCommand(task, storedCommands.size()));
+                    System.out.println(echoCommand(task, storedCommands.size(), true));
                 } catch (RonException e) {
                     printSeparator();
                     System.out.println(e.getMessage());
@@ -132,7 +155,7 @@ public class Ron {
                     String to = tokens[2];
                     Task task = new Event(taskName, from, to);
                     storedCommands.add(task);
-                    System.out.println(echoCommand(task, storedCommands.size()));
+                    System.out.println(echoCommand(task, storedCommands.size(), true));
                 } catch (RonException e) {
                     printSeparator();
                     System.out.println(e.getMessage());
