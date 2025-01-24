@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+import java.util.ArrayList;
 public class Ron {
     public static void printSeparator() {
         System.out.println("____________________________________________________________");
@@ -39,49 +39,60 @@ public class Ron {
         System.out.println("Hello from\n" + logo);
         System.out.println(greetUser());
 
-        Task[] storedCommands = new Task[100];
-        int counter = 0;
+        ArrayList<Task> storedCommands = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (scanner.hasNext()) {
             String nextCommand = scanner.nextLine();
+
             if (nextCommand.equals("bye")) {
                 break;
             } else if (nextCommand.equals("list")) {
                 printSeparator();
-                System.out.println("Here are the tasks in your list:");
-
-                for (int i = 0; i < counter; i++) {
-                    System.out.printf("%s. %s\n", i + 1, storedCommands[i]);
+                if (storedCommands.isEmpty()) {
+                    System.out.println("No tasks in your list!");
+                } else {
+                    System.out.println("Here are the tasks in your list:");
+                    for (int i = 0; i < storedCommands.size(); i++) {
+                        System.out.printf("%d. %s\n", i + 1, storedCommands.get(i));
+                    }
                 }
-
                 printSeparator();
-                continue;
-            } else if (nextCommand.startsWith("mark")) {
-                int taskNumber = Integer.parseInt(nextCommand.split(" ")[1]) - 1;
-                storedCommands[taskNumber].mark();
-
+            } else if (nextCommand.startsWith("mark") || nextCommand.startsWith("unmark")) {
+                try {
+                    printSeparator();
+                    int taskNumber = Integer.parseInt(nextCommand.split(" ")[1]) - 1;
+                    if (taskNumber <= 0 || taskNumber >= storedCommands.size()) {
+                        System.out.println("Invalid task number!");
+                    } else {
+                        Task task = storedCommands.get(taskNumber);
+                        if (nextCommand.startsWith("mark")) {
+                            if (task.isMarked()) {
+                                System.out.println("Task is already marked as done!");
+                            } else {
+                                task.mark();
+                                System.out.printf("Nice! I've marked this task as done:\n %s\n", task);
+                            }
+                        } else {
+                            if (!task.isMarked()) {
+                                System.out.println("Task is already not done!");
+                            } else {
+                                task.unmark();
+                                System.out.printf("OK, I've marked this task as not done yet:\n %s\n", task);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid command format! Use 'mark/unmark <task number>'.");
+                }
                 printSeparator();
-                System.out.printf("Nice! I've marked this task as done:\n  %s\n", storedCommands[taskNumber]);
-                printSeparator();
-                continue;
-            } else if (nextCommand.startsWith("unmark")) {
-                int taskNumber = Integer.parseInt(nextCommand.split(" ")[1]) - 1;
-                storedCommands[taskNumber].unmark();
-
-                printSeparator();
-                System.out.printf("OK, I've marked this task as not done yet:\n  %s\n", storedCommands[taskNumber]);
-                printSeparator();
-                continue;
+            } else {
+                storedCommands.add(new Task(nextCommand));
+                System.out.println(echoCommand(nextCommand));
             }
-
-            storedCommands[counter] = new Task(nextCommand);
-            counter++;
-            System.out.println(echoCommand(nextCommand));
         }
 
         System.out.println(farewellUser());
         scanner.close();
-
     }
 }

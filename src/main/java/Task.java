@@ -14,6 +14,10 @@ public class Task {
         this.completed = false;
     }
 
+    public boolean isMarked() {
+        return this.completed;
+    }
+
     @Override
     public String toString() {
         String taskBox;
