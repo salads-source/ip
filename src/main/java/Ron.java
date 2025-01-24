@@ -61,14 +61,18 @@ public class Ron {
             } else if (nextCommand.startsWith("mark") || nextCommand.startsWith("unmark")) {
                 try {
                     printSeparator();
-                    int taskNumber = Integer.parseInt(nextCommand.split(" ")[1]) - 1;
+                    String[] tokens = nextCommand.split(" ", 2);
+                    if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
+                        throw new RonException("Insufficient arguments passed!");
+                    }
+                    int taskNumber = Integer.parseInt(tokens[1]) - 1;
                     if (taskNumber < 0 || taskNumber >= storedCommands.size()) {
-                        System.out.println("Invalid task number!");
+                        throw new RonException("Invalid task number!");
                     } else {
                         Task task = storedCommands.get(taskNumber);
                         if (nextCommand.startsWith("mark")) {
                             if (task.isMarked()) {
-                                System.out.println("Task is already marked as done!");
+                                throw new RonException("Task is already marked as done!");
                             } else {
                                 task.mark();
                                 System.out.printf("Nice! I've marked this task as done:\n %s\n", task);
@@ -82,32 +86,62 @@ public class Ron {
                             }
                         }
                     }
-                } catch (Exception e) {
-                    System.out.println("Invalid command format! Use 'mark/unmark <task number>'.");
+                } catch (RonException e) {
+                    System.out.println(e.getMessage());
                 }
                 printSeparator();
             } else if (nextCommand.startsWith("todo")) {
-                String taskName = nextCommand.substring(5);
-                Task task = new Todo(taskName);
-                storedCommands.add(task);
-                System.out.println(echoCommand(task, storedCommands.size()));
+                try {
+                    String[] tokens = nextCommand.split(" ", 2);
+                    if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
+                        throw new RonException("Todo activity cannot be empty!");
+                    }
+                    String taskName = nextCommand.substring(5);
+                    Task task = new Todo(taskName);
+                    storedCommands.add(task);
+                    System.out.println(echoCommand(task, storedCommands.size()));
+                } catch (RonException e) {
+                    printSeparator();
+                    System.out.println(e.getMessage());
+                    printSeparator();
+                }
             } else if (nextCommand.startsWith("deadline")) {
-                String[] tokens = nextCommand.split(" /by ");
-                String taskName = tokens[0].substring(9);
-                String by = tokens[1];
-                Task task = new Deadline(taskName, by);
-                storedCommands.add(task);
-                System.out.println(echoCommand(task, storedCommands.size()));
+                try {
+                    String[] tokens = nextCommand.split(" /by ");
+                    if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
+                        throw new RonException("Please specify a deadline using /by");
+                    }
+                    String taskName = tokens[0].substring(9);
+                    String by = tokens[1];
+                    Task task = new Deadline(taskName, by);
+                    storedCommands.add(task);
+                    System.out.println(echoCommand(task, storedCommands.size()));
+                } catch (RonException e) {
+                    printSeparator();
+                    System.out.println(e.getMessage());
+                    printSeparator();
+                }
             } else if (nextCommand.startsWith("event")) {
-                String[] tokens = nextCommand.split(" /from | /to");
-                String taskName = tokens[0].substring(6);
-                String from = tokens[1];
-                String to = tokens[2];
-                Task task = new Event(taskName, from, to);
-                storedCommands.add(task);
-                System.out.println(echoCommand(task, storedCommands.size()));
+                try {
+                    String[] tokens = nextCommand.split(" /from | /to");
+                    if (tokens.length < 3 || tokens[1].trim().isEmpty() || tokens[2].trim().isEmpty()) {
+                        throw new RonException("Please specify both the /from and /to timing");
+                    }
+                    String taskName = tokens[0].substring(6);
+                    String from = tokens[1];
+                    String to = tokens[2];
+                    Task task = new Event(taskName, from, to);
+                    storedCommands.add(task);
+                    System.out.println(echoCommand(task, storedCommands.size()));
+                } catch (RonException e) {
+                    printSeparator();
+                    System.out.println(e.getMessage());
+                    printSeparator();
+                }
             } else {
+                printSeparator();
                 System.out.println("Invalid command. Please re-enter your command.");
+                printSeparator();
             }
         }
 
