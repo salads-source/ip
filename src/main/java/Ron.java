@@ -16,30 +16,25 @@ public class Ron {
     }
     public static String echoCommand(Task task, int taskCount, boolean isAdd) {
         return isAdd ? String.format("""
-                ____________________________________________________________
                 Got it. I've added this task:
                   %s
                 Now you have %d tasks in the list.
-                ____________________________________________________________
                 """, task, taskCount) : String.format("""
-                ____________________________________________________________
                 Noted. I've removed this task:
                   %s
                 Now you have %d tasks in the list.
-                ____________________________________________________________
                 """, task, taskCount);
     }
 
     public static String farewellUser() {
         return """
                 ____________________________________________________________
-                Bye. Hope to see you again soon!
+                Bye. Hope to see you again soon.
                 ____________________________________________________________
                 """;
     }
 
     public static void listTasks() {
-        printSeparator();
         if (storedCommands.isEmpty()) {
             System.out.println("No tasks in your list!");
         } else {
@@ -48,11 +43,9 @@ public class Ron {
                 System.out.printf("%d.%s\n", i + 1, storedCommands.get(i));
             }
         }
-        printSeparator();
     }
 
     public static void setTaskStatus(String nextCommand) throws RonException {
-        printSeparator();
         String[] tokens = nextCommand.split(" ", 2);
         if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
             throw new RonException("Insufficient arguments passed!");
@@ -71,7 +64,7 @@ public class Ron {
                 }
             } else {
                 if (!task.isMarked()) {
-                    System.out.println("Task is already not done!");
+                    System.out.println("Task is already marked as undone!");
                 } else {
                     task.unmark();
                     System.out.printf("OK, I've marked this task as not done yet:\n %s\n", task);
@@ -142,7 +135,7 @@ public class Ron {
 
         while (scanner.hasNext()) {
             String nextCommand = scanner.nextLine();
-
+            printSeparator();
             if (nextCommand.equals("bye")) {
                 break;
             } else if (nextCommand.equals("list")) {
@@ -153,44 +146,35 @@ public class Ron {
                 } catch (RonException e) {
                     System.out.println(e.getMessage());
                 }
-                printSeparator();
+
             } else if (nextCommand.startsWith("delete")) {
                 try {
                     deleteTask(nextCommand);
                 } catch (RonException e) {
-                    printSeparator();
                     System.out.println(e.getMessage());
-                    printSeparator();
                 }
             } else if (nextCommand.startsWith("todo")) {
                 try {
                    addTodoTask(nextCommand);
                 } catch (RonException e) {
-                    printSeparator();
                     System.out.println(e.getMessage());
-                    printSeparator();
                 }
             } else if (nextCommand.startsWith("deadline")) {
                 try {
                     addDeadlineTask(nextCommand);
                 } catch (RonException e) {
-                    printSeparator();
                     System.out.println(e.getMessage());
-                    printSeparator();
                 }
             } else if (nextCommand.startsWith("event")) {
                 try {
                     addEventTask(nextCommand);
                 } catch (RonException e) {
-                    printSeparator();
                     System.out.println(e.getMessage());
-                    printSeparator();
                 }
             } else {
-                printSeparator();
                 System.out.println("Invalid command. Please re-enter your command.");
-                printSeparator();
             }
+            printSeparator();
         }
 
         System.out.println(farewellUser());
