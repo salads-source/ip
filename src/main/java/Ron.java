@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Ron {
+    private static ArrayList<Task> storedCommands = new ArrayList<>();
     public static void printSeparator() {
         System.out.println("____________________________________________________________");
     }
@@ -12,14 +13,14 @@ public class Ron {
                 ____________________________________________________________
                 """;
     }
-    public static String echoCommand(String command) {
-        String result =  """
+    public static String echoCommand(Task task, int taskCount) {
+        return String.format("""
                 ____________________________________________________________
-                added: %s
+                Got it. I've added this task:
+                  %s
+                Now you have %d tasks in the list.
                 ____________________________________________________________
-                """;
-        result = String.format(result, command);
-        return result;
+                """, task, taskCount);
     }
 
     public static String farewellUser() {
@@ -39,7 +40,6 @@ public class Ron {
         System.out.println("Hello from\n" + logo);
         System.out.println(greetUser());
 
-        ArrayList<Task> storedCommands = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (scanner.hasNext()) {
@@ -54,7 +54,7 @@ public class Ron {
                 } else {
                     System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < storedCommands.size(); i++) {
-                        System.out.printf("%d. %s\n", i + 1, storedCommands.get(i));
+                        System.out.printf("%d.%s\n", i + 1, storedCommands.get(i));
                     }
                 }
                 printSeparator();
@@ -62,7 +62,7 @@ public class Ron {
                 try {
                     printSeparator();
                     int taskNumber = Integer.parseInt(nextCommand.split(" ")[1]) - 1;
-                    if (taskNumber <= 0 || taskNumber >= storedCommands.size()) {
+                    if (taskNumber < 0 || taskNumber >= storedCommands.size()) {
                         System.out.println("Invalid task number!");
                     } else {
                         Task task = storedCommands.get(taskNumber);
@@ -86,9 +86,28 @@ public class Ron {
                     System.out.println("Invalid command format! Use 'mark/unmark <task number>'.");
                 }
                 printSeparator();
+            } else if (nextCommand.startsWith("todo")) {
+                String taskName = nextCommand.substring(5);
+                Task task = new Todo(taskName);
+                storedCommands.add(task);
+                System.out.println(echoCommand(task, storedCommands.size()));
+            } else if (nextCommand.startsWith("deadline")) {
+                String[] tokens = nextCommand.split(" /by ");
+                String taskName = tokens[0].substring(9);
+                String by = tokens[1];
+                Task task = new Deadline(taskName, by);
+                storedCommands.add(task);
+                System.out.println(echoCommand(task, storedCommands.size()));
+            } else if (nextCommand.startsWith("event")) {
+                String[] tokens = nextCommand.split(" /from | /to");
+                String taskName = tokens[0].substring(6);
+                String from = tokens[1];
+                String to = tokens[2];
+                Task task = new Event(taskName, from, to);
+                storedCommands.add(task);
+                System.out.println(echoCommand(task, storedCommands.size()));
             } else {
-                storedCommands.add(new Task(nextCommand));
-                System.out.println(echoCommand(nextCommand));
+                System.out.println("Invalid command. Please re-enter your command.");
             }
         }
 
