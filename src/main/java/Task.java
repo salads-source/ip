@@ -1,4 +1,4 @@
-public class Task {
+public abstract class Task {
     private final String name;
     private boolean completed = false;
 
@@ -18,12 +18,19 @@ public class Task {
         return this.completed;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public abstract String getType();
+    public abstract String getDetails();
+
     @Override
     public String toString() {
         String taskBox;
         taskBox = completed ? "[X]": "[]";
 
-        return String.format("%s %s", taskBox, name);
+        return String.format("[%s]%s %s %s", getType(), taskBox, this.name, getDetails());
     }
 
 }
