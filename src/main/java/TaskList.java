@@ -47,7 +47,7 @@ public class TaskList {
 
         Task task = this.tasks.get(taskNumber);
         if (!task.isMarked()) {
-            throw new RonException("Task is already marked as done!");
+            throw new RonException("Task is already unmarked!");
         } else {
             task.unmark();
             System.out.printf("Nice! I've marked this task as done:\n %s\n", task);

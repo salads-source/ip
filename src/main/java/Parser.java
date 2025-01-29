@@ -3,10 +3,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Parser {
-    public static void parseCommand(String command, TaskList tasks, Storage storage) {
+    public static void parseCommand(String command, TaskList tasks, Storage storage, Ui ui) {
         try {
             if (command.equals("bye")) {
                 Ui.farewellUser();
+                ui.closeScanner();
                 System.exit(0);
             } else if (command.equals("list")) {
                 Ui.listTasks(tasks.getTasks());
@@ -74,8 +75,10 @@ public class Parser {
             } else {
                 Ui.echoMessage("Invalid command. Please try again.");
             }
-        } catch (RonException | NumberFormatException | DateTimeParseException e) {
+        } catch (RonException | NumberFormatException e) {
             Ui.echoMessage("Error: " + e.getMessage());
+        } catch (DateTimeParseException e) {
+            Ui.echoMessage("Invalid date format! Please use yyyy-MM-dd HH:mm");
         }
     }
 }

@@ -8,6 +8,9 @@ public class Ui {
         this.scanner = new Scanner(System.in);
     }
 
+    public void closeScanner() {
+        this.scanner.close();
+    }
     public static void greetUser() {
         String logo = """
                  ____        _       \s
@@ -27,7 +30,6 @@ public class Ui {
 
     public static void farewellUser() {
         System.out.println("""
-                ____________________________________________________________
                 Bye. Hope to see you again soon.
                 ____________________________________________________________
                 """);
