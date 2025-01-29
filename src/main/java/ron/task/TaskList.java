@@ -1,3 +1,8 @@
+package ron.task;
+
+import ron.RonException;
+import ron.ui.Ui;
+
 import java.util.ArrayList;
 
 public class TaskList {
@@ -33,7 +38,7 @@ public class TaskList {
 
         Task task = this.tasks.get(taskNumber);
         if (task.isMarked()) {
-            throw new RonException("Task is already marked as done!");
+            throw new RonException("ron.task.Task is already marked as done!");
         } else {
             task.mark();
             System.out.printf("Nice! I've marked this task as done:\n %s\n", task);
@@ -47,7 +52,7 @@ public class TaskList {
 
         Task task = this.tasks.get(taskNumber);
         if (!task.isMarked()) {
-            throw new RonException("Task is already unmarked!");
+            throw new RonException("ron.task.Task is already unmarked!");
         } else {
             task.unmark();
             System.out.printf("Nice! I've marked this task as done:\n %s\n", task);

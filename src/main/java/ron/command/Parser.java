@@ -1,3 +1,10 @@
+package ron.command;
+
+import ron.RonException;
+import ron.ui.Ui;
+import ron.task.*;
+import ron.storage.Storage;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -41,7 +48,7 @@ public class Parser {
             } else if (command.startsWith("todo")) {
                 String[] tokens = command.split(" ", 2);
                 if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
-                    throw new RonException("Todo list cannot be empty!");
+                    throw new RonException("ron.task.Todo list cannot be empty!");
                 }
 
                 Task task = new Todo(tokens[1]);
