@@ -16,4 +16,12 @@ public class Event extends Task {
     public String getDetails() {
         return String.format("(from: %s to: %s)", this.from, this.to);
     }
+
+    public String getFrom() {
+        return this.from;
+    }
+
+    public String getTo() {
+        return this.to;
+    }
 }

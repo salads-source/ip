@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 public class Ron {
     private static final ArrayList<Task> storedCommands = new ArrayList<>();
+    private static final Storage storage = new Storage("./data/ron.txt");
     public static void printSeparator() {
         System.out.println("____________________________________________________________");
     }
@@ -123,6 +124,12 @@ public class Ron {
     }
 
     public static void main(String[] args) {
+        try {
+            storedCommands.addAll(storage.load());
+            System.out.println("Old tasks lodaed successfully.");
+        } catch (RonException e) {
+            System.out.println(e.getMessage());
+        }
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -143,6 +150,7 @@ public class Ron {
             } else if (nextCommand.startsWith("mark") || nextCommand.startsWith("unmark")) {
                 try {
                     setTaskStatus(nextCommand);
+                    storage.save(storedCommands);
                 } catch (RonException e) {
                     System.out.println(e.getMessage());
                 }
@@ -150,24 +158,28 @@ public class Ron {
             } else if (nextCommand.startsWith("delete")) {
                 try {
                     deleteTask(nextCommand);
+                    storage.save(storedCommands);
                 } catch (RonException e) {
                     System.out.println(e.getMessage());
                 }
             } else if (nextCommand.startsWith("todo")) {
                 try {
                    addTodoTask(nextCommand);
+                   storage.save(storedCommands);
                 } catch (RonException e) {
                     System.out.println(e.getMessage());
                 }
             } else if (nextCommand.startsWith("deadline")) {
                 try {
                     addDeadlineTask(nextCommand);
+                    storage.save(storedCommands);
                 } catch (RonException e) {
                     System.out.println(e.getMessage());
                 }
             } else if (nextCommand.startsWith("event")) {
                 try {
                     addEventTask(nextCommand);
+                    storage.save(storedCommands);
                 } catch (RonException e) {
                     System.out.println(e.getMessage());
                 }
