@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Ui {
     private final Scanner scanner;
@@ -8,7 +8,7 @@ public class Ui {
         this.scanner = new Scanner(System.in);
     }
 
-    public void greetUser() {
+    public static void greetUser() {
         String logo = """
                  ____        _       \s
                 |  _ \\ _   _| | _____\s
@@ -25,7 +25,7 @@ public class Ui {
                 """);
     }
 
-    public void farewellUser() {
+    public static void farewellUser() {
         System.out.println("""
                 ____________________________________________________________
                 Bye. Hope to see you again soon.
@@ -33,7 +33,7 @@ public class Ui {
                 """);
     }
 
-    public void printSeparator() {
+    public static void printSeparator() {
         System.out.println("____________________________________________________________");
     }
 
@@ -45,7 +45,7 @@ public class Ui {
         return this.scanner.nextLine();
     }
 
-    public void echoMessage(String message) {
+    public static void echoMessage(String message) {
         System.out.println(message);
     }
 
@@ -61,7 +61,7 @@ public class Ui {
                 """, task, taskCount);
     }
 
-    public void listTasks(List<Task> storedCommands) {
+    public static void listTasks(ArrayList<Task> storedCommands) {
         if (storedCommands.isEmpty()) {
             System.out.println("No tasks in your list!");
         } else {
