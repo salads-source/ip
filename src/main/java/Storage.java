@@ -1,5 +1,7 @@
 import java.io.*;
 import java.nio.file.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static java.nio.file.Files.createFile;
@@ -55,14 +57,16 @@ public class Storage {
         sb.append(task.getType());
         sb.append(" | ").append(task.isMarked() ? "1" : "0");
         sb.append(" | ").append(task.getName());
+
         if (task instanceof Deadline) {
-            sb.append(" | ").append(((Deadline) task).getBy());
+            sb.append(" | ").append(((Deadline) task).getBy().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         } else if (task instanceof Event) {
-            sb.append(" | ").append(((Event) task).getFrom());
-            sb.append(" | ").append(((Event) task).getTo());
+            sb.append(" | ").append(((Event) task).getFrom().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            sb.append(" | ").append(((Event) task).getTo().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         }
         return sb.toString();
     }
+
 
     private Task parseTask(String line) {
         try {
@@ -73,8 +77,15 @@ public class Storage {
 
             Task task = switch (type) {
                 case "T" -> new Todo(name);
-                case "D" -> new Deadline(name, parts[3]);
-                case "E" -> new Event(name, parts[3], parts[4]);
+                case "D" -> {
+                    LocalDateTime by = LocalDateTime.parse(parts[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    yield new Deadline(name, by);
+                }
+                case "E" -> {
+                    LocalDateTime from = LocalDateTime.parse(parts[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime to = LocalDateTime.parse(parts[4], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    yield new Event(name, from, to);
+                }
                 default -> throw new IllegalArgumentException("Invalid task type");
             };
 

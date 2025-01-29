@@ -1,6 +1,10 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline extends Task {
-    private final String by;
-    public Deadline(String name, String by) {
+    private final LocalDateTime by;
+
+    public Deadline(String name, LocalDateTime by) {
         super(name);
         this.by = by;
     }
@@ -12,10 +16,11 @@ public class Deadline extends Task {
 
     @Override
     public String getDetails() {
-        return String.format("(by: %s)", by);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm");
+        return String.format("(by: %s)", by.format(formatter));
     }
 
-    public String getBy() {
+    public LocalDateTime getBy() {
         return this.by;
     }
 }
