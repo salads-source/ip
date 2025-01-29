@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import static java.nio.file.Files.createFile;
 
 public class Storage {
     private final Path filePath;
