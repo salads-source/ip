@@ -1,3 +1,6 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Ron {
@@ -101,40 +104,50 @@ public class Ron {
     public static void addDeadlineTask(String nextCommand) throws RonException {
         String[] tokens = nextCommand.split(" /by ");
         if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
-            throw new RonException("Please specify a deadline using /by");
+            throw new RonException("Please specify a deadline using /by in the format yyyy-MM-dd HH:mm");
         }
-        String taskName = tokens[0].substring(9);
-        String by = tokens[1];
-        Task task = new Deadline(taskName, by);
-        storedCommands.add(task);
-        System.out.println(echoCommand(task, storedCommands.size(), true));
+        String taskName = tokens[0].substring(9).trim();
+        try {
+            LocalDateTime by = LocalDateTime.parse(tokens[1].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            Task task = new Deadline(taskName, by);
+            storedCommands.add(task);
+            System.out.println(echoCommand(task, storedCommands.size(), true));
+        } catch (DateTimeParseException e) {
+            throw new RonException("Invalid date format! Please use yyyy-MM-dd HH:mm");
+        }
     }
 
     public static void addEventTask(String nextCommand) throws RonException {
-        String[] tokens = nextCommand.split(" /from | /to");
+        String[] tokens = nextCommand.split(" /from | /to ");
         if (tokens.length < 3 || tokens[1].trim().isEmpty() || tokens[2].trim().isEmpty()) {
-            throw new RonException("Please specify both the /from and /to timing");
+            throw new RonException("Please specify both the /from and /to timing in the format yyyy-MM-dd HH:mm");
         }
-        String taskName = tokens[0].substring(6);
-        String from = tokens[1];
-        String to = tokens[2];
-        Task task = new Event(taskName, from, to);
-        storedCommands.add(task);
-        System.out.println(echoCommand(task, storedCommands.size(), true));
+        String taskName = tokens[0].substring(6).trim();
+        try {
+            LocalDateTime from = LocalDateTime.parse(tokens[1].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime to = LocalDateTime.parse(tokens[2].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            Task task = new Event(taskName, from, to);
+            storedCommands.add(task);
+            System.out.println(echoCommand(task, storedCommands.size(), true));
+        } catch (DateTimeParseException e) {
+            throw new RonException("Invalid date format! Please use yyyy-MM-dd HH:mm");
+        }
     }
 
     public static void main(String[] args) {
         try {
             storedCommands.addAll(storage.load());
-            System.out.println("Old tasks lodaed successfully.");
+            System.out.println("Old tasks loaded successfully.");
         } catch (RonException e) {
             System.out.println(e.getMessage());
         }
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
+        String logo = """
+                 ____        _       \s
+                |  _ \\ _   _| | _____\s
+                | | | | | | | |/ / _ \\
+                | |_| | |_| |   <  __/
+                |____/ \\__,_|_|\\_\\___|
+                """;
         System.out.println("Hello from\n" + logo);
         System.out.println(greetUser());
 
