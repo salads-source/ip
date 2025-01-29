@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Ui {
     private final Scanner scanner;
@@ -45,6 +45,10 @@ public class Ui {
         return this.scanner.nextLine();
     }
 
+    public void echoMessage(String message) {
+        System.out.println(message);
+    }
+
     public static String echoCommand(Task task, int taskCount, boolean isAdd) {
         return isAdd ? String.format("""
                 Got it. I've added this task:
@@ -57,7 +61,7 @@ public class Ui {
                 """, task, taskCount);
     }
 
-    public void listTasks(ArrayList<Task> storedCommands) {
+    public void listTasks(List<Task> storedCommands) {
         if (storedCommands.isEmpty()) {
             System.out.println("No tasks in your list!");
         } else {
