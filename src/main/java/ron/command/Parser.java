@@ -106,6 +106,14 @@ public class Parser {
                 Task task = new Event(taskName, from, to);
                 tasks.addTask(task);
                 storage.save(tasks.getTasks());
+            } else if (command.startsWith("find")) {
+                String[] tokens = command.split(" ", 2);
+                if (tokens.length < 2 || tokens[1].trim().isEmpty()) {
+                    throw new RonException("Please provide a keyword to search.");
+                }
+
+                String keyword = tokens[1].trim();
+                tasks.findTasks(keyword);
             } else {
                 Ui.echoMessage("Invalid command. Please try again.");
             }
