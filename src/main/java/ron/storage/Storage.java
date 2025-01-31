@@ -1,13 +1,18 @@
 package ron.storage;
 
 import ron.RonException;
+
 import ron.task.Deadline;
 import ron.task.Event;
 import ron.task.Task;
 import ron.task.Todo;
 
-import java.io.*;
-import java.nio.file.*;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,6 +28,8 @@ import java.util.Scanner;
  */
 public class Storage {
     private final Path filePath;
+    private static final String DELIMITER = " | ";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     /**
      * Constructs a Storage object to handle file-based task storage.
@@ -98,17 +105,20 @@ public class Storage {
      * @return A string representation of the task suitable for file storage.
      */
     private String taskToFileFormat(Task task) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(task.getType());
-        sb.append(" | ").append(task.isMarked() ? "1" : "0");
-        sb.append(" | ").append(task.getName());
+        StringBuilder sb = new StringBuilder()
+                .append(task.getType())
+                .append(DELIMITER)
+                .append(task.isMarked() ? "1" : "0")
+                .append(DELIMITER)
+                .append(task.getName());
 
-        if (task instanceof Deadline) {
-            sb.append(" | ").append(((Deadline) task).getBy().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-        } else if (task instanceof Event) {
-            sb.append(" | ").append(((Event) task).getFrom().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            sb.append(" | ").append(((Event) task).getTo().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        if (task instanceof Deadline deadline) {
+            sb.append(DELIMITER).append(deadline.getBy().format(DATE_FORMATTER));
+        } else if (task instanceof Event event) {
+            sb.append(DELIMITER).append(event.getFrom().format(DATE_FORMATTER))
+                    .append(DELIMITER).append(event.getTo().format(DATE_FORMATTER));
         }
+
         return sb.toString();
     }
 
@@ -132,16 +142,20 @@ public class Storage {
             Task task = switch (type) {
                 case "T" -> new Todo(name);
                 case "D" -> {
-                    LocalDateTime by = LocalDateTime.parse(parts[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime by = LocalDateTime.parse(parts[3],
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                     yield new Deadline(name, by);
                 }
                 case "E" -> {
-                    LocalDateTime from = LocalDateTime.parse(parts[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                    LocalDateTime to = LocalDateTime.parse(parts[4], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime from = LocalDateTime.parse(parts[3],
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime to = LocalDateTime.parse(parts[4],
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                     yield new Event(name, from, to);
                 }
                 default -> throw new IllegalArgumentException("Invalid task type");
             };
+
 
             if (isMarked) {
                 task.mark();
