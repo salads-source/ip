@@ -9,7 +9,27 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * The Parser class handles the processing of user input commands.
+ * <p>
+ * It interprets user input and executes corresponding actions such as
+ * adding tasks, marking/unmarking tasks, and deleting tasks. It also
+ * interacts with the storage system to save updated task lists.
+ * </p>
+ */
 public class Parser {
+
+    /**
+     * Parses and executes the given user command.
+     *
+     * @param command The user command as a string.
+     * @param tasks The TaskList object containing the current list of tasks.
+     * @param storage The Storage object responsible for saving task data.
+     * @param ui The Ui object for handling user interactions.
+     * @throws RonException If the command has insufficient arguments or is invalid.
+     * @throws NumberFormatException If a task number is not a valid integer.
+     * @throws DateTimeParseException If date formatting is incorrect.
+     */
     public static void parseCommand(String command, TaskList tasks, Storage storage, Ui ui) {
         try {
             if (command.equals("bye")) {

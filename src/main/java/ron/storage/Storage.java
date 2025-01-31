@@ -13,11 +13,32 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving of task data to and from a file.
+ * <p>
+ * This class is responsible for persistent storage of tasks, ensuring that
+ * task lists are saved to disk and reloaded when the application starts.
+ * It supports serialization and deserialization of various task types.
+ * </p>
+ */
 public class Storage {
     private final Path filePath;
+
+    /**
+     * Constructs a Storage object to handle file-based task storage.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
+
+    /**
+     * Loads tasks from the storage file into an ArrayList.
+     *
+     * @return An ArrayList containing all tasks from the file.
+     * @throws RonException If there is an error reading the file.
+     */
     public ArrayList<Task> load() throws RonException {
         ArrayList<Task> tasks = new ArrayList<>();
         if (Files.notExists(filePath)) {
@@ -40,6 +61,12 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the current list of tasks to the storage file.
+     *
+     * @param tasks The list of tasks to be saved.
+     * @throws RonException If there is an error writing to the file.
+     */
     public void save(ArrayList<Task> tasks) throws RonException {
         try (FileWriter writer = new FileWriter(filePath.toFile())) {
             for (Task task: tasks) {
@@ -50,6 +77,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Creates the storage file and necessary directories if they do not exist.
+     *
+     * @throws RonException If the file or directories cannot be created.
+     */
     public void createFile() throws RonException {
         try {
             Files.createDirectories(filePath.getParent());
@@ -59,6 +91,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Converts a task into a file-compatible string format.
+     *
+     * @param task The task to be formatted.
+     * @return A string representation of the task suitable for file storage.
+     */
     private String taskToFileFormat(Task task) {
         StringBuilder sb = new StringBuilder();
         sb.append(task.getType());
@@ -74,7 +112,16 @@ public class Storage {
         return sb.toString();
     }
 
-
+    /**
+     * Parses a line from the storage file and converts it into a Task object.
+     * <p>
+     * Supports different task types (ToDo, Deadline, Event) and ensures that
+     * the task is properly restored with its completion status.
+     * </p>
+     *
+     * @param line A line from the storage file containing task data.
+     * @return A Task object corresponding to the parsed data, or null if the line is corrupted.
+     */
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");

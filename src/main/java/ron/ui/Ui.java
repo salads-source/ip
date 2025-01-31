@@ -5,9 +5,19 @@ import ron.task.Task;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * Handles all user interactions, including input and output operations.
+ * <p>
+ * This class provides methods to read user commands, display messages,
+ * and format task-related outputs.
+ * </p>
+ */
 public class Ui {
     private final Scanner scanner;
 
+    /**
+     * Initializes the Ui class with a Scanner for user input.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
@@ -55,6 +65,14 @@ public class Ui {
         System.out.println(message);
     }
 
+    /**
+     * Returns a formatted message for task addition or removal.
+     *
+     * @param task The task being added or removed.
+     * @param taskCount The updated number of tasks in the list.
+     * @param isAdd {@code true} if the task is being added, {@code false} if it is being removed.
+     * @return A formatted string indicating the addition or removal of a task.
+     */
     public static String echoCommand(Task task, int taskCount, boolean isAdd) {
         return isAdd ? String.format("""
                 Got it. I've added this task:
@@ -67,6 +85,11 @@ public class Ui {
                 """, task, taskCount);
     }
 
+    /**
+     * Displays the list of stored tasks.
+     *
+     * @param storedCommands The list of tasks to be displayed.
+     */
     public static void listTasks(ArrayList<Task> storedCommands) {
         if (storedCommands.isEmpty()) {
             System.out.println("No tasks in your list!");
@@ -77,7 +100,4 @@ public class Ui {
             }
         }
     }
-
-
-
 }
