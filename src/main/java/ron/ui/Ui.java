@@ -16,15 +16,22 @@ public class Ui {
     private final Scanner scanner;
 
     /**
-     * Initializes the Ui class with a Scanner for user input.
+     * Initialises the Ui class with a Scanner for user input.
      */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Closes the scanner object for memory reallocation.
+     */
     public void closeScanner() {
         this.scanner.close();
     }
+
+    /**
+     * Greets the user.
+     */
     public static void greetUser() {
         String logo = """
                  ____        _       \s
@@ -42,6 +49,9 @@ public class Ui {
                 """);
     }
 
+    /**
+     * Bids farewell to user.
+     */
     public static void farewellUser() {
         System.out.println("""
                 Bye. Hope to see you again soon.
@@ -53,6 +63,11 @@ public class Ui {
         System.out.println("____________________________________________________________");
     }
 
+    /**
+     * Detects the presence of another command.
+     *
+     * @return {@code true} if the scanner detects another command and {@code false} otherwise.
+     */
     public boolean hasNextInput() {
         return this.scanner.hasNext();
     }
@@ -101,6 +116,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays the list of matching tasks as instructed by the "find" command
+     *
+     * @param matchingTasks The list of matching tasks to be displayed
+     */
     public static void displayMatchingTasks(ArrayList<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
             System.out.println("No matching tasks found.");

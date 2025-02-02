@@ -103,6 +103,11 @@ public class TaskList {
         return this.tasks;
     }
 
+    /**
+     * Displays matching tasks which contains the keyword.
+     *
+     * @param keyword Search for tasks which contains the keyword.
+     */
     public void findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
 
