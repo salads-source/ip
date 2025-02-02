@@ -1,9 +1,13 @@
 package ron;
 
+import ron.command.Command;
 import ron.command.Parser;
+
 import ron.task.TaskList;
 import ron.storage.Storage;
 import ron.ui.Ui;
+
+import java.util.Objects;
 
 /**
  * The main class for the Ron task manager.
@@ -48,8 +52,17 @@ public class Ron {
 
         while (this.ui.hasNextInput()) {
             Ui.printSeparator();
-            String command = this.ui.readNextCommand();
-            Parser.parseCommand(command, this.tasks, this.storage, this.ui);
+            try {
+                String commandInput = this.ui.readNextCommand();
+                Command command = Parser.parseCommand(commandInput);
+                command.execute(this.tasks, this.storage, this.ui);
+
+                if (command.isExit()) {
+                    break;
+                }
+            } catch (RonException e) {
+                Ui.echoMessage(e.getMessage());
+            }
             Ui.printSeparator();
         }
     }
