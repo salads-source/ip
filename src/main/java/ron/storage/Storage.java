@@ -48,12 +48,12 @@ public class Storage {
      */
     public ArrayList<Task> load() throws RonException {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (Files.notExists(filePath)) {
+        if (Files.notExists(this.filePath)) {
             createFile();
             return tasks;
         }
 
-        try (Scanner scanner = new Scanner(filePath)) {
+        try (Scanner scanner = new Scanner(this.filePath)) {
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 Task task = parseTask(line);
@@ -75,7 +75,7 @@ public class Storage {
      * @throws RonException If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws RonException {
-        try (FileWriter writer = new FileWriter(filePath.toFile())) {
+        try (FileWriter writer = new FileWriter(this.filePath.toFile())) {
             for (Task task: tasks) {
                 writer.write(taskToFileFormat(task) + System.lineSeparator());
             }
@@ -91,8 +91,8 @@ public class Storage {
      */
     public void createFile() throws RonException {
         try {
-            Files.createDirectories(filePath.getParent());
-            Files.createFile(filePath);
+            Files.createDirectories(this.filePath.getParent());
+            Files.createFile(this.filePath);
         } catch (IOException e) {
             throw new RonException("Failed to create data file: " + e.getMessage());
         }
