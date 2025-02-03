@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'checkstyle'
 }
 
 repositories {
@@ -13,11 +14,11 @@ dependencies {
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
 }
 
-test {
-    useJUnitPlatform()
-
-    testLogging {
-        events "passed", "skipped", "failed"
+test {\n" +
+                "    useJUnitPlatform()\n" +
+                "\n" +
+                "    testLogging {\n" +
+                "        events \"passed", "skipped", "failed"
 
         showExceptions true
         exceptionFormat "full"
@@ -38,4 +39,8 @@ shadowJar {
 
 run {
     standardInput = System.in
+}
+
+checkstyle {
+    toolVersion = '10.2'
 }
