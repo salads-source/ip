@@ -17,11 +17,12 @@ public class TodoCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
+    public String execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
         if (this.description.trim().isEmpty()) {
             throw new RonException("ToDo task cannot be empty!");
         }
-        tasks.addTask(new Todo(this.description));
+        String response = tasks.addTask(new Todo(this.description));
         storage.save(tasks.getTasks());
+        return response;
     }
 }

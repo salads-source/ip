@@ -7,8 +7,6 @@ import ron.task.TaskList;
 import ron.storage.Storage;
 import ron.ui.Ui;
 
-import java.util.Objects;
-
 /**
  * The main class for the Ron task manager.
  * <p>
@@ -67,6 +65,23 @@ public class Ron {
         }
     }
 
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parseCommand(input);
+            String response = command.execute(this.tasks, this.storage, this.ui);
+
+            if (command.isExit()) {
+                System.exit(0);
+                return "Goodbye! See you next time!";
+            }
+            return response;
+        } catch (RonException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return "An unexpected error occurred: " + e.getMessage();
+        }
+    }
+
     /**
      * The entry point for the Ron task manager.
      * <p>
@@ -78,6 +93,4 @@ public class Ron {
     public static void main(String[] args) {
         new Ron("./data/ron.txt").run();
     }
-
-
 }

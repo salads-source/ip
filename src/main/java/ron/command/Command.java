@@ -17,7 +17,7 @@ public abstract class Command {
      * @param ui The ui for user interaction.
      * @throws RonException If an error occurs during command execution.
      */
-    public abstract void execute(TaskList tasks, Storage storage, Ui ui) throws RonException;
+    public abstract String execute(TaskList tasks, Storage storage, Ui ui) throws RonException;
 
     /**
      * Determines if the command should exit the program.

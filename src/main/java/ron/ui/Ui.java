@@ -52,8 +52,8 @@ public class Ui {
     /**
      * Bids farewell to user.
      */
-    public static void farewellUser() {
-        System.out.println("""
+    public static String farewellUser() {
+        return ("""
                 Bye. Hope to see you again soon.
                 ____________________________________________________________
                 """);
@@ -105,14 +105,15 @@ public class Ui {
      *
      * @param storedCommands The list of tasks to be displayed.
      */
-    public static void listTasks(ArrayList<Task> storedCommands) {
+    public static String getTaskList(ArrayList<Task> storedCommands) {
         if (storedCommands.isEmpty()) {
-            System.out.println("No tasks in your list!");
+            return "No tasks in your list!";
         } else {
-            System.out.println("Here are the tasks in your list:");
+            StringBuilder result = new StringBuilder("Here are the tasks in your list:\n");
             for (int i = 0; i < storedCommands.size(); i++) {
-                System.out.printf("%d.%s\n", i + 1, storedCommands.get(i));
+                result.append(String.format("%d. %s%n", i + 1, storedCommands.get(i)));
             }
+            return result.toString();
         }
     }
 
@@ -121,14 +122,15 @@ public class Ui {
      *
      * @param matchingTasks The list of matching tasks to be displayed
      */
-    public static void displayMatchingTasks(ArrayList<Task> matchingTasks) {
+    public static String getMatchingTasks(ArrayList<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
-            System.out.println("No matching tasks found.");
+            return "No matching tasks found.";
         } else {
-            System.out.println("Here are the matching tasks in your list:");
+            StringBuilder result = new StringBuilder("Here are the matching tasks in your list:\n");
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.printf("%d. %s%n", i + 1, matchingTasks.get(i));
+                result.append(String.format("%d. %s%n", i + 1, matchingTasks.get(i)));
             }
+            return result.toString();
         }
     }
 }

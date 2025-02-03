@@ -9,7 +9,8 @@ import ron.ui.Ui;
  */
 public class ListCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage storage, Ui ui) {
-        Ui.listTasks(tasks.getTasks());
+    public String execute(TaskList tasks, Storage storage, Ui ui) {
+        String response = Ui.getTaskList(tasks.getTasks());
+        return response;
     }
 }

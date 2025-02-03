@@ -15,8 +15,9 @@ public class MarkCommand extends Command {
         this.TASK_NUMBER = taskNumber;
     }
     @Override
-    public void execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
-        tasks.markTask(this.TASK_NUMBER);
+    public String execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
+        String response = tasks.markTask(this.TASK_NUMBER);
         storage.save(tasks.getTasks());
+        return response;
     }
 }

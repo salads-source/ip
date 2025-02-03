@@ -9,10 +9,10 @@ import ron.ui.Ui;
  */
 public class ExitCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage storage, Ui ui) {
-        Ui.farewellUser();
+    public String execute(TaskList tasks, Storage storage, Ui ui) {
+        String response = Ui.farewellUser();
         ui.closeScanner();
-        System.exit(0);
+        return response;
     }
 
     @Override

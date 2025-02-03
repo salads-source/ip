@@ -33,9 +33,10 @@ public class TaskList {
      *
      * @param task The Task object to be added.
      */
-    public void addTask(Task task) {
+    public String addTask(Task task) {
         this.tasks.add(task);
         Ui.echoMessage(Ui.echoCommand(task, this.tasks.size(), true));
+        return Ui.echoCommand(task, this.tasks.size(), true);
     }
 
     /**
@@ -44,7 +45,7 @@ public class TaskList {
      * @param taskNumber The index of the task to be deleted (0-based index).
      * @throws RonException If the task number is out of range.
      */
-    public void deleteTask(int taskNumber) throws RonException {
+    public String deleteTask(int taskNumber) throws RonException {
         if (taskNumber < 0 || taskNumber >= this.tasks.size()) {
             throw new RonException("Invalid task number! Please choose a task number to delete.");
         }
@@ -52,6 +53,7 @@ public class TaskList {
         Task task = this.tasks.get(taskNumber);
         this.tasks.remove(taskNumber);
         Ui.echoMessage(Ui.echoCommand(task, this.tasks.size(), false));
+        return Ui.echoCommand(task, this.tasks.size(), true);
     }
 
     /**
@@ -60,7 +62,7 @@ public class TaskList {
      * @param taskNumber The index of the task to be marked (0-based index).
      * @throws RonException If the task number is out of range or the task is already marked.
      */
-    public void markTask(int taskNumber) throws RonException {
+    public String markTask(int taskNumber) throws RonException {
         if (taskNumber < 0 || taskNumber >= this.tasks.size()) {
             throw new RonException("Invalid task number!");
         }
@@ -70,7 +72,7 @@ public class TaskList {
             throw new RonException("Task is already marked as done!");
         } else {
             task.mark();
-            System.out.printf("Nice! I've marked this task as done:\n %s\n", task);
+            return String.format("Nice! I've marked this task as done:\n %s\n", task);
         }
     }
 
@@ -80,7 +82,7 @@ public class TaskList {
      * @param taskNumber The index of the task to be unmarked (0-based index).
      * @throws RonException If the task number is out of range or the task is already unmarked.
      */
-    public void unmarkTask(int taskNumber) throws RonException {
+    public String unmarkTask(int taskNumber) throws RonException {
         if (taskNumber < 0 || taskNumber >= tasks.size()) {
             throw new RonException("Invalid task number!");
         }
@@ -90,7 +92,7 @@ public class TaskList {
             throw new RonException("Task is already unmarked!");
         } else {
             task.unmark();
-            System.out.printf("Nice! I've marked this task as done:\n %s\n", task);
+            return String.format("Nice! I've marked this task as done:\n %s\n", task);
         }
     }
 
@@ -108,7 +110,7 @@ public class TaskList {
      *
      * @param keyword Search for tasks which contains the keyword.
      */
-    public void findTasks(String keyword) {
+    public String findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
 
         for (Task task : tasks) {
@@ -117,6 +119,7 @@ public class TaskList {
             }
         }
 
-        Ui.displayMatchingTasks(matchingTasks);
+        String response = Ui.getMatchingTasks(matchingTasks);
+        return response;
     }
 }
