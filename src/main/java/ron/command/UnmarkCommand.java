@@ -15,8 +15,9 @@ public class UnmarkCommand extends Command {
         this.TASK_NUMBER = taskNumber;
     }
     @Override
-    public void execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
-        tasks.unmarkTask(this.TASK_NUMBER);
+    public String execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
+        String response = tasks.unmarkTask(this.TASK_NUMBER);
         storage.save(tasks.getTasks());
+        return response;
     }
 }

@@ -25,12 +25,14 @@ public class EventCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
+    public String execute(TaskList tasks, Storage storage, Ui ui) throws RonException {
         try {
             LocalDateTime fromTime = LocalDateTime.parse(this.from, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             LocalDateTime toTime = LocalDateTime.parse(this.to, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            tasks.addTask(new Event(this.description, fromTime, toTime));
+
+            String response = tasks.addTask(new Event(this.description, fromTime, toTime));
             storage.save(tasks.getTasks());
+            return response;
         } catch (DateTimeParseException e) {
             throw new RonException("Invalid date format! Use yyyy-MM-dd HH:mm.");
         }
