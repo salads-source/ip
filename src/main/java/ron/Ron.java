@@ -65,6 +65,12 @@ public class Ron {
         }
     }
 
+    /**
+     * Gets the response to be displayed on the gui.
+     *
+     * @param input The string command.
+     * @return The string response for a given command.
+     */
     public String getResponse(String input) {
         try {
             Command command = Parser.parseCommand(input);
