@@ -15,6 +15,7 @@ public abstract class Command {
      * @param tasks The task list to modify.
      * @param storage The storage handler.
      * @param ui The ui for user interaction.
+     * @return The string response to be displayed on gui.
      * @throws RonException If an error occurs during command execution.
      */
     public abstract String execute(TaskList tasks, Storage storage, Ui ui) throws RonException;
