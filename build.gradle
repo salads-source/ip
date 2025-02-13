@@ -49,6 +49,9 @@ application {
 shadowJar {
     archiveBaseName = "ron"
     archiveClassifier = null
+
+    mergeServiceFiles()
+    configurations = [project.configurations.runtimeClasspath]
 }
 
 run {
