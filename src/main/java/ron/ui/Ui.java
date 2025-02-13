@@ -51,6 +51,8 @@ public class Ui {
 
     /**
      * Bids farewell to user.
+     *
+     * @return A string for the farewell message.
      */
     public static String farewellUser() {
         return ("""
@@ -104,6 +106,7 @@ public class Ui {
      * Displays the list of stored tasks.
      *
      * @param storedCommands The list of tasks to be displayed.
+     * @return A formatted string of the current task list.
      */
     public static String getTaskList(ArrayList<Task> storedCommands) {
         if (storedCommands.isEmpty()) {
@@ -121,6 +124,7 @@ public class Ui {
      * Displays the list of matching tasks as instructed by the "find" command
      *
      * @param matchingTasks The list of matching tasks to be displayed
+     * @return A formatted string of the matching task list.
      */
     public static String getMatchingTasks(ArrayList<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
