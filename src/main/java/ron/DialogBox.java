@@ -25,6 +25,9 @@ public class DialogBox extends HBox {
     private ImageView displayPicture;
 
     private DialogBox(String text, Image img) {
+        assert text != null && !text.trim().isEmpty() : "DialogBox: Text should not be null or empty";
+        assert img != null : "DialogBox: Image should not be null";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -33,6 +36,9 @@ public class DialogBox extends HBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        assert dialog != null : "DialogBox: Label 'dialog' should be initialised";
+        assert displayPicture != null : "DialogBox: ImageView 'displayPicture' should be initialised";
 
         dialog.setText(text);
         displayPicture.setImage(img);
