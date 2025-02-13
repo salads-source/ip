@@ -28,6 +28,12 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    private void validateTaskNumber(int taskNumber) throws RonException {
+        if (taskNumber < 0 || taskNumber >= this.tasks.size()) {
+            throw new RonException("Invalid task number! Please choose another task number.");
+        }
+    }
+
     /**
      * Adds a task to the list and displays a confirmation message.
      *
@@ -46,9 +52,7 @@ public class TaskList {
      * @throws RonException If the task number is out of range.
      */
     public String deleteTask(int taskNumber) throws RonException {
-        if (taskNumber < 0 || taskNumber >= this.tasks.size()) {
-            throw new RonException("Invalid task number! Please choose a task number to delete.");
-        }
+        validateTaskNumber(taskNumber);
 
         Task task = this.tasks.get(taskNumber);
         this.tasks.remove(taskNumber);
@@ -63,9 +67,7 @@ public class TaskList {
      * @throws RonException If the task number is out of range or the task is already marked.
      */
     public String markTask(int taskNumber) throws RonException {
-        if (taskNumber < 0 || taskNumber >= this.tasks.size()) {
-            throw new RonException("Invalid task number!");
-        }
+        validateTaskNumber(taskNumber);
 
         Task task = this.tasks.get(taskNumber);
         if (task.isMarked()) {
@@ -83,9 +85,7 @@ public class TaskList {
      * @throws RonException If the task number is out of range or the task is already unmarked.
      */
     public String unmarkTask(int taskNumber) throws RonException {
-        if (taskNumber < 0 || taskNumber >= tasks.size()) {
-            throw new RonException("Invalid task number!");
-        }
+        validateTaskNumber(taskNumber);
 
         Task task = this.tasks.get(taskNumber);
         if (!task.isMarked()) {
