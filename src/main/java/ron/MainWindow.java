@@ -43,7 +43,7 @@ public class MainWindow extends AnchorPane {
         String response = this.ron.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getRonDialog(response, dukeImage)
         );
         userInput.clear();
     }

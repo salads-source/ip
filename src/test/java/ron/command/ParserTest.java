@@ -64,6 +64,18 @@ public class ParserTest {
     }
 
     @Test
+    @DisplayName("Add an Event task")
+    public void testAddEventCommand() throws Exception {
+        Command command = Parser.parseCommand("event leetcode /from 2025-01-31 23:59 /to 2025-02-22 23:59");
+        command.execute(taskList, storage, ui);
+
+        ArrayList<Task> tasks = taskList.getTasks();
+        assertEquals(1, tasks.size(), "Task list should contain one task.");
+        assertEquals("[E][] leetcode (from: Jan 31 2025, 23:59 to: Feb 22 2025, 23:59)", tasks.get(0).toString().trim(), "Todo task should be added correctly.");
+    }
+
+
+    @Test
     @DisplayName("Mark a task as done")
     public void testMarkTaskCommand() throws Exception {
         Task task = new Task("Read book") {
