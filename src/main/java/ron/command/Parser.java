@@ -15,6 +15,9 @@ public class Parser {
      * @throws RonException If the input is invalid or arguments are missing.
      */
     public static Command parseCommand(String command) throws RonException {
+        assert command != null : "parseCommand: Command should not be null";
+        assert !command.trim().isEmpty() : "parseCommand: Command should not be empty";
+
         String[] tokens = command.trim().split(" ", 2);
         String action = tokens[0];
 

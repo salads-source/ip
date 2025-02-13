@@ -30,6 +30,7 @@ public class MainWindow extends AnchorPane {
 
     /** Injects the Duke instance */
     public void setRon(Ron ron) {
+        assert ron != null : "setRon: Ron instance should not be null";
         this.ron = ron;
     }
 
@@ -39,8 +40,14 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        assert userInput != null : "handleUserInput: userInput field should be initialised";
+        assert dialogContainer != null : "handleUserInput: dialogContainer should be initialsed";
+
         String input = userInput.getText();
         String response = this.ron.getResponse(input);
+
+        assert response != null : "handleUserInput: Response should not be null";
+
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getRonDialog(response, dukeImage)
