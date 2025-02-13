@@ -75,6 +75,8 @@ public class Storage {
      * @throws RonException If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws RonException {
+        assert tasks != null : "save: Task list should not be null";
+
         try (FileWriter writer = new FileWriter(this.filePath.toFile())) {
             for (Task task: tasks) {
                 writer.write(taskToFileFormat(task) + System.lineSeparator());
