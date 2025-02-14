@@ -66,6 +66,26 @@ public class Ui {
     }
 
     /**
+     * Displays the list of available commands.
+     */
+    public String showHelp() {
+        String helpText = """
+            Here are the available commands:
+            - `list` : Displays all tasks
+            - `todo <task description>` : Adds a todo task
+            - `deadline <task description> /by <yyyy-MM-dd HH:mm>` : Adds a deadline
+            - `event <task description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>` : Adds an event
+            - `mark <task number>` : Marks a task as done
+            - `unmark <task number>` : Unmarks a task
+            - `delete <task number>` : Deletes a task
+            - `find <keyword>` : Finds tasks containing a keyword
+            - `bye` : Exits the application
+            - `help` : Shows this help message
+            """;
+        return helpText;
+    }
+
+    /**
      * Detects the presence of another command.
      *
      * @return {@code true} if the scanner detects another command and {@code false} otherwise.

@@ -24,6 +24,8 @@ public class Parser {
         switch (action) {
             case "bye":
                 return new ExitCommand();
+            case "help":
+                return new HelpCommand();
             case "list":
                 return new ListCommand();
             case "mark":
