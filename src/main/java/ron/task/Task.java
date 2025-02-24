@@ -9,7 +9,7 @@ package ron.task;
  */
 public abstract class Task {
     private final String name;
-    private boolean completed = false;
+    private boolean isCompleted = false;
 
     /**
      * Constructs a Task with a specified name.
@@ -24,14 +24,14 @@ public abstract class Task {
      * Marks the task as completed.
      */
     public void mark() {
-        this.completed = true;
+        this.isCompleted = true;
     }
 
     /**
      * Unmarks the task, setting it as incomplete.
      */
     public void unmark() {
-        this.completed = false;
+        this.isCompleted = false;
     }
 
     /**
@@ -40,7 +40,7 @@ public abstract class Task {
      * @return {@code true} if the task is completed, {@code false} otherwise.
      */
     public boolean isMarked() {
-        return this.completed;
+        return this.isCompleted;
     }
 
     /**
@@ -81,7 +81,7 @@ public abstract class Task {
     @Override
     public String toString() {
         String taskBox;
-        taskBox = completed ? "[X]": "[]";
+        taskBox = isCompleted ? "[X]": "[]";
 
         return String.format("[%s]%s %s %s", getType(), taskBox, this.name, getDetails());
     }

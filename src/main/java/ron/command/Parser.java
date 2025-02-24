@@ -14,6 +14,7 @@ public class Parser {
      * @return A Command object representing the parsed user input.
      * @throws RonException If the input is invalid or arguments are missing.
      */
+    /** Refactoring of command parsing method done with the aid of ChatGPT */
     public static Command parseCommand(String command) throws RonException {
         assert command != null : "parseCommand: Command should not be null";
         assert !command.trim().isEmpty() : "parseCommand: Command should not be empty";

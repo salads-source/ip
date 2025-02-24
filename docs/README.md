@@ -56,7 +56,7 @@ Ron is a simple command-line chatbot that helps you track and manage your tasks.
 
 ## Installation
 1. Ensure you have Java 17 or later installed.
-2. Download the latest `ron.jar` from the [Releases](https://github.com/{your-username}/ip/releases) page.
+2. Download the latest `ron.jar` from the [Releases](https://github.com/salads-source/ip/releases) page.
 3. Open a terminal or command prompt in the directory containing `ron.jar`.
 4. Run the following command:
    ```sh
@@ -67,5 +67,10 @@ Ron is a simple command-line chatbot that helps you track and manage your tasks.
 To view this guide in GitHub Pages format, visit:
 [https://salads-source.github.io/ip](https://salads-source.github.io/ip)
 
+**Credit for AI Usage**
+1. Used ChatGPT to help with method refactoring as well as clearer phrasing for java docs
+1. Method Refactoring for Storage and Parser classes done with the aid of ChatGPT
+2. Command Refactoring structure done with the help of ChatGPT
+
 ---
-*Enjoy using Ron Chatbot! If you encounter any issues, feel free to report them on the [GitHub Issues](https://github.com/{your-username}/ip/issues) page.* 🚀
+*Enjoy using Ron Chatbot! If you encounter any issues, feel free to report them on the [GitHub Issues](https://github.com/salads-source/ip/issues) page.* 🚀

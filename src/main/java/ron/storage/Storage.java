@@ -106,6 +106,7 @@ public class Storage {
      * @param task The task to be formatted.
      * @return A string representation of the task suitable for file storage.
      */
+    /** Refactoring of tasktoFileFormat method done with the aid of ChatGPT */
     private String taskToFileFormat(Task task) {
         StringBuilder sb = new StringBuilder()
                 .append(task.getType())
@@ -134,6 +135,7 @@ public class Storage {
      * @param line A line from the storage file containing task data.
      * @return A Task object corresponding to the parsed data, or null if the line is corrupted.
      */
+    /** Refactoring of parseTask method done with the aid of ChatGPT */
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");
