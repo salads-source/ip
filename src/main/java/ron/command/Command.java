@@ -23,7 +23,7 @@ public abstract class Command {
     /**
      * Determines if the command should exit the program.
      *
-     * @return {@code true} if this is an exit command, otherwise {@code false}.
+     * @return {@code true} issssssssssf this is an exit command, otherwise {@code false}.
      */
     public boolean isExit() {
         return false;

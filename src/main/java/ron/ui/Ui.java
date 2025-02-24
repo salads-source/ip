@@ -31,23 +31,23 @@ public class Ui {
 
     /**
      * Greets the user.
+     *
+     * @return A string for greeting the user.
      */
-    public static void greetUser() {
-        String logo = """
-                 ____        _       \s
-                |  _ \\ _   _| | _____\s
-                | | | | | | | |/ / _ \\
-                | |_| | |_| |   <  __/
-                |____/ \\__,_|_|\\_\\___|
-                """;
-        System.out.println("Hello from\n" + logo);
-        System.out.println("""
-                ____________________________________________________________
-                Hello! I'm Ron
-                What can I do for you?
-                ____________________________________________________________
-                """);
+    public static String greetUser() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\n")
+                .append("     _______  ____   ____ \n")
+                .append("     \\_  __ \\/  _ \\ /    \\\n")
+                .append("      |  | \\(  <_> )   |  \\\n")
+                .append("      |__|   \\____/|___|  /\n")
+                .append("                        \\/\n\n")
+                .append("Hello! I'm Ron\n")
+                .append("What can I do for you?\n");
+        return sb.toString();
     }
+
 
     /**
      * Bids farewell to user.

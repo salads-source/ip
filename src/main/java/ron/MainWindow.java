@@ -1,7 +1,8 @@
 package ron;
 
+import ron.ui.Ui;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,37 +22,44 @@ public class MainWindow extends AnchorPane {
     private Ron ron;
 
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/peter.png"));
-    private final Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/quagmire.png"));
+    private final Image botImage = new Image(this.getClass().getResourceAsStream("/images/quagmire.png"));
 
+    /** Initialises the Container and attaches a welcome message */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        assert dialogContainer != null : "initialize: dialogContainer should be initialized";
+
+        dialogContainer.getChildren().add(
+                DialogBox.getRonDialog(Ui.greetUser(), botImage)
+        );
     }
 
-    /** Injects the Duke instance */
+    /** Injects the Ron instance */
     public void setRon(Ron ron) {
         assert ron != null : "setRon: Ron instance should not be null";
         this.ron = ron;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
+     * Creates two dialog boxes, one echoing user input and the other containing Ron's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
     @FXML
     private void handleUserInput() {
         assert userInput != null : "handleUserInput: userInput field should be initialised";
-        assert dialogContainer != null : "handleUserInput: dialogContainer should be initialsed";
+        assert dialogContainer != null : "handleUserInput: dialogContainer should be initialised";
 
         String input = userInput.getText();
         String response = this.ron.getResponse(input);
 
-        assert response != null : "handleUserInput: Response should not be null";
-
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getRonDialog(response, dukeImage)
+                DialogBox.getRonDialog(response, botImage)
         );
+
+        assert response != null : "handleUserInput: Response should not be null";
         userInput.clear();
     }
 }
